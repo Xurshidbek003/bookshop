@@ -1,4 +1,6 @@
+from http.client import HTTPException
 from pydantic import BaseModel, validator
+
 from models.users import Users
 from db import SessionLocal
 
@@ -11,13 +13,16 @@ class CreateUser(BaseModel):
     password: str
 
     @validator('username')
-    def username_validate(cls, username):
+    def username_validate(cls, username: str):
         validate_my = db.query(Users).filter(
             Users.username == username,
         ).count()
 
         if validate_my != 0:
             raise ValueError('Bunday login avval ro`yxatga olingan!')
+
+        if username.isnumeric() is False:
+            raise HTTPException(400, "raqamlardan iborat bolsin")
         return username
 
     @validator('password')
@@ -29,18 +34,7 @@ class CreateUser(BaseModel):
 
 class UpdateUser(BaseModel):
     name: str
-    username: str
     password: str
-
-    @validator('username')
-    def username_validate(cls, username):
-        validate_my = db.query(Users).filter(
-            Users.username == username,
-        ).count()
-
-        if validate_my != 0:
-            raise ValueError('Bunday login avval ro`yxatga olingan!')
-        return username
 
     @validator('password')
     def password_validate(cls, password):
@@ -62,6 +56,8 @@ class CreateGeneralUser(BaseModel):
 
         if validate_my != 0:
             raise ValueError('Bunday login avval ro`yxatga olingan!')
+        if username.isnumeric() is False:
+            raise HTTPException(400, "raqamlardan iborat bolsin")
         return username
 
     @validator('password')
@@ -69,5 +65,3 @@ class CreateGeneralUser(BaseModel):
         if len(password) < 8:
             raise ValueError('Parol 8 tadan kam bo`lmasligi kerak')
         return password
-
-

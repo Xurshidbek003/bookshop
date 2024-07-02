@@ -15,7 +15,7 @@ app = FastAPI(
     description=description,
     contact={
         'name': "Xurshidbek Tursunaliyev's telegram account url for questions",
-        'url': 'https://t.me/fastapi_developer1',
+        'url': 'https://t.me/fastapi_developer1'
     },
     docs_url='/',
     redoc_url='/redoc',
