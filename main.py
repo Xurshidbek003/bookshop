@@ -6,16 +6,16 @@ from routers import api
 description = """
 ------------------------------
 **Username and password for Admin**
-* Login: **admin2003**
-* Parol: **admin2003**
+* Login: **admin**
+* Parol: **admin123**
 ------------------------------
 """
 
 app = FastAPI(
     description=description,
     contact={
-        'name': "Xurshidbek Tursunaliyev's telegram account url for questions",
-        'url': 'https://t.me/fastapi_developer1'
+        'name': "Asilbek Tojaliyev's telegram account url for questions",
+        'url': 'https://t.me/tojaliyev13'
     },
     docs_url='/',
     redoc_url='/redoc',

@@ -4,7 +4,7 @@ from utils.pagination import pagination
 from models.users import Users
 
 
-def get_users(ident, search, page, limit, db):
+def get_user_f(ident, search, page, limit, role, db):
 
     if ident > 0:
         ident_filter = Users.id == ident
@@ -18,7 +18,14 @@ def get_users(ident, search, page, limit, db):
     else:
         search_filter = Users.id > 0
 
-    items = db.query(Users).filter(ident_filter, search_filter).order_by(Users.id.desc())
+    if role == "boss":
+        role_filter = Users.role == "boss"
+    elif role == "admin":
+        role_filter = Users.role == "admin"
+    else:
+        role_filter = Users.id > 0
+
+    items = db.query(Users).filter(ident_filter, search_filter, role_filter).order_by(Users.id.desc())
 
     return pagination(items, page, limit)
 
@@ -44,7 +51,6 @@ def create_general_user_f(form, db):
 def update_user_f(form, db, user):
     db.query(Users).filter(Users.id == user.id).update({
         Users.name: form.name,
-        Users.username: form.username,
         Users.password: get_password_hash(form.password),
         Users.role: user.role,
     })
@@ -54,5 +60,3 @@ def update_user_f(form, db, user):
 def delete_user_f(db, user):
     db.query(Users).filter(Users.id == user.id).delete()
     db.commit()
-
-
