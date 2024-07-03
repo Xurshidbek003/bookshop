@@ -14,7 +14,7 @@ description = """
 app = FastAPI(
     description=description,
     contact={
-        'name': "Asilbek Tojaliyev's telegram account url for questions",
+        'name': "Xurshidbek Tojaliyev's telegram account url for questions",
         'url': 'https://t.me/tojaliyev13'
     },
     docs_url='/',
